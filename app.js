@@ -26,7 +26,10 @@ if (navigator.geolocation) {
     }).addTo(map);
 
     map.on('click', function(mapEvent) {
-      console.log(mapEvent)
+
+      form.classList.remove('hidden')
+      inputDistance.focus()
+      
       const {lat, lng} = mapEvent.latlng
 
       L.marker([lat, lng])
@@ -47,3 +50,7 @@ if (navigator.geolocation) {
     alert('Could not get your position')
   })
 }
+
+form.addEventListener('submit', function() {
+  
+})
