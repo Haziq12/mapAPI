@@ -11,6 +11,16 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+class Workout {
+  constructor(coordinates, distance, duration) {
+    this.coordinates = coordinates,
+    this.distance = distance,
+    this.duration = duration
+  }
+
+  
+}
+
 class App {
   #map
   #mapEvent
@@ -72,8 +82,10 @@ class App {
       const cadence = Number(inputCadence.value)
 
       if (!validInputs(distance, duration, cadence) ||
-        !isPositive(distance, duration, cadence))
+        !isPositive(distance, duration, cadence)) {
         return alert('Please enter a positive number value:')
+      }
+      // const workout = new Running(this.#mapEvent.latlng )
     } 
 
     if(type === 'cycling') {
