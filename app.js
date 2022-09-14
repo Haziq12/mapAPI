@@ -15,11 +15,37 @@ class Workout {
   // Using Public Field Declarations:
   date = new Date()
   id = (new Date() + '').slice(-10)
-  
+
   constructor(coordinates, distance, duration) {
     this.coordinates = coordinates,
     this.distance = distance,
     this.duration = duration
+  }
+}
+
+class Running extends Workout {
+  constructor(coordinates, distance, duration, cadence) {
+    super(coordinates, distance, duration)
+    this.cadence = cadence
+    this.calcPace()
+  }
+
+  calcPace() {
+    this.pace = this.duration / this.distance
+    return this.pace 
+  }
+}
+
+class Cycling extends Workout {
+  constructor(coordinates, distance, duration, elevationGain) {
+    super(coordinates, distance, duration)
+    this.elevationGain = elevationGain
+    this.calcSpeed()
+  }
+
+  calcSpeed() {
+    this.speed = this.distance / (this.duration / 60)
+    return this.speed
   }
 }
 
