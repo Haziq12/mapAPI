@@ -12,13 +12,15 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
 class Workout {
+  // Using Public Field Declarations:
+  date = new Date()
+  id = (new Date() + '').slice(-10)
+  
   constructor(coordinates, distance, duration) {
     this.coordinates = coordinates,
     this.distance = distance,
     this.duration = duration
   }
-
-  
 }
 
 class App {
