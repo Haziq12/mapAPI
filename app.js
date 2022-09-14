@@ -14,13 +14,15 @@ const inputElevation = document.querySelector('.form__input--elevation');
 let map, mapEvent
 
 class App {
-  constructor () {}
+  constructor () {
+    this._getPosition()
+  }
 
   _getPosition() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this._loadMap, function () {
-          alert('Could not get your position')
-        })
+        alert('Could not get your position')
+      })
     }
   }
 
@@ -40,9 +42,7 @@ class App {
         mapEvent = event
         form.classList.remove('hidden')
         inputDistance.focus()
-
       })
-
     }
   }
 
@@ -52,6 +52,8 @@ class App {
 
   _newWorkout () {} 
 }
+
+const app = new App()
 
 form.addEventListener('submit', function(e) {
   e.preventDefault()
