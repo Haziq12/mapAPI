@@ -15,12 +15,12 @@ class App {
   #map
   #mapEvent
 
-  constructor () {
+  constructor() {
     this._getPosition(),
 
-    form.addEventListener('submit', this._newWorkout.bind(this)),
-    
-    inputType.addEventListener('change', this._toggleElevationField)
+      form.addEventListener('submit', this._newWorkout.bind(this)),
+
+      inputType.addEventListener('change', this._toggleElevationField)
   }
 
   _getPosition() {
@@ -32,17 +32,17 @@ class App {
   }
 
   _loadMap(position) {
-      const { latitude } = position.coords
-      const { longitude } = position.coords
+    const { latitude } = position.coords
+    const { longitude } = position.coords
 
-      const coordinates = [latitude, longitude]
-      this.#map = L.map('map').setView(coordinates, 13);
+    const coordinates = [latitude, longitude]
+    this.#map = L.map('map').setView(coordinates, 13);
 
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(this.#map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.#map);
 
-      this.#map.on('click', this._showForm.bind(this))
+    this.#map.on('click', this._showForm.bind(this))
   }
 
   _showForm(event) {
@@ -51,30 +51,53 @@ class App {
     inputDistance.focus()
   }
 
-  _toggleElevationField () {
+  _toggleElevationField() {
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden')
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden')
   }
 
-  _newWorkout (e) {
+  _newWorkout(e) {
     e.preventDefault()
-      // clear input fields
-      inputDistance.value = inputDuration.value = inputElevation.value = inputCadence.value = ''
-      const { lat, lng } = this.#mapEvent.latlng
+
+    // Get form data
+    const type = inputType.value 
+    const distance = Number(inputDistance.value )
+    const duration = Number(inputDuration.value)
+
+    if (type === 'running') {
+      const cadence = Number(inputCadence.value)
+      if (!Number.isFinite(distance) ||
+        !Number.isFinite(duration) ||
+        !Number.isFinite(cadence)
+      )
+        return alert('Please enter a positive number value:')
+    } 
+
+    if(type === 'cycling') {
+      const elevation = Number(inputElevation.value)
+    }
+
+
+    // Show workout on the map as a marker
+    const { lat, lng } = this.#mapEvent.latlng 
+    L.marker([lat, lng])
+      .addTo(this.#map)
+      .bindPopup(L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        autoClose: false,
+        closeOnClick: false,
+        className: 'running-popup'
+      }))
+      .setPopupContent('Workout')
+      .openPopup();
+
+    // clear input fields
+    inputDistance.value = inputDuration.value = inputElevation.value = inputCadence.value = ''
     
-          L.marker([lat, lng])
-            .addTo(this.#map)
-            .bindPopup(L.popup({
-              maxWidth: 250,
-              minWidth: 100,
-              autoClose: false, 
-              closeOnClick: false, 
-              className: 'running-popup'
-            }))
-            .setPopupContent('Workout')
-            .openPopup();
-  } 
+
+    
+  }
 }
 
 const app = new App()
-
