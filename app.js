@@ -59,6 +59,7 @@ class App {
   _newWorkout(e) {
 
     const validInputs = (...inputs) => inputs.every(num => Number.isFinite(num))
+    const isPositive = (...inputs) => inputs.every(num => num > 0) 
 
     e.preventDefault()
 
@@ -70,14 +71,16 @@ class App {
     if (type === 'running') {
       const cadence = Number(inputCadence.value)
 
-      if (!validInputs(distance, duration, cadence))
+      if (!validInputs(distance, duration, cadence) ||
+        !isPositive(distance, duration, cadence))
         return alert('Please enter a positive number value:')
     } 
 
     if(type === 'cycling') {
       const elevation = Number(inputElevation.value)
 
-      if (!validInputs(distance, duration, elevation))
+      if (!validInputs(distance, duration, elevation) ||
+        !isPositive(distance, duration))
         return alert('Please enter a positive number value:')
     }
 
