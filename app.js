@@ -51,10 +51,6 @@ class Cycling extends Workout {
   }
 }
 
-const running = new Running([20, 25], 4, 30, 170)
-const cycling = new Cycling([20, 25], 4, 30, 170)
-console.log(running, cycling)
-
 class App {
   #map
   #mapEvent
@@ -136,6 +132,7 @@ class App {
     }
 
     this.#workouts.push(workout)
+    console.log(workout)
 
     // Show workout on the map as a marker
     
@@ -146,7 +143,7 @@ class App {
         minWidth: 100,
         autoClose: false,
         closeOnClick: false,
-        className: 'running-popup'
+        className: `${type}-popup`
       }))
       .setPopupContent('Workout')
       .openPopup();
