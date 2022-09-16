@@ -14,7 +14,7 @@ const inputElevation = document.querySelector('.form__input--elevation');
 class Workout {
   // Using Public Field Declarations:
   date = new Date()
-  id = (new Date() + '').slice(-10)
+  id = (Date.now() + '').slice(-10)
 
   constructor(coordinates, distance, duration) {
     this.coordinates = coordinates,
@@ -36,6 +36,8 @@ class Running extends Workout {
   }
 }
 
+
+
 class Cycling extends Workout {
   constructor(coordinates, distance, duration, elevationGain) {
     super(coordinates, distance, duration)
@@ -49,9 +51,14 @@ class Cycling extends Workout {
   }
 }
 
+const running = new Running([20, 25], 4, 30, 170)
+const cycling = new Cycling([20, 25], 4, 30, 170)
+console.log(running, cycling)
+
 class App {
   #map
   #mapEvent
+  #workouts = []
 
   constructor() {
     this._getPosition(),
@@ -105,6 +112,8 @@ class App {
     const type = inputType.value 
     const distance = Number(inputDistance.value )
     const duration = Number(inputDuration.value)
+    const { lat, lng } = this.#mapEvent.latlng 
+    let workout 
 
     if (type === 'running') {
       const cadence = Number(inputCadence.value)
@@ -113,7 +122,7 @@ class App {
         !isPositive(distance, duration, cadence)) {
         return alert('Please enter a positive number value:')
       }
-      // const workout = new Running(this.#mapEvent.latlng )
+      workout = new Running([lat, lng], distance, duration, cadence)
     } 
 
     if(type === 'cycling') {
@@ -122,11 +131,14 @@ class App {
       if (!validInputs(distance, duration, elevation) ||
         !isPositive(distance, duration))
         return alert('Please enter a positive number value:')
+
+        workout = new Cycling([lat, lng], distance, duration, elevation)
     }
 
+    this.#workouts.push(workout)
 
     // Show workout on the map as a marker
-    const { lat, lng } = this.#mapEvent.latlng 
+    
     L.marker([lat, lng])
       .addTo(this.#map)
       .bindPopup(L.popup({
