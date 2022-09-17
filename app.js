@@ -66,6 +66,7 @@ class App {
     this._getPosition()
     form.addEventListener('submit', this._newWorkout.bind(this))
     inputType.addEventListener('change', this._toggleElevationField)
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this))
   }
 
   _getPosition() {
@@ -215,6 +216,17 @@ class App {
     }
     form.insertAdjacentHTML('afterend', html)
   }
-}
+
+  _moveToPopup(e) {
+    const workoutEl = e.target.closest('.workout')
+    console.log(workoutEl)
+    //guard clause
+    if(!workoutEl) return 
+
+    const workout = this.#workouts.find(workout => workout.id === workoutEl.dataset.id)
+    console.log(workout) 
+
+  }
+ }
 
 const app = new App()
