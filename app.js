@@ -1,8 +1,5 @@
 'use strict';
 
-
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
@@ -21,6 +18,11 @@ class Workout {
     this.distance = distance
     this.duration = duration
   }
+
+  _setDescription() {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`
+  }
 }
 
 class Running extends Workout {
@@ -29,6 +31,7 @@ class Running extends Workout {
     super(coordinates, distance, duration)
     this.cadence = cadence
     this.calcPace()
+    this._setDescription()
   }
 
   calcPace() {
@@ -45,6 +48,7 @@ class Cycling extends Workout {
     super(coordinates, distance, duration)
     this.elevationGain = elevationGain
     this.calcSpeed()
+    this._setDescription()
   }
 
   calcSpeed() {
