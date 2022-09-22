@@ -245,6 +245,7 @@ class App {
   _setLocalStorage() {
     localStorage.setItem('workouts', JSON.stringify(this.#workouts))
   }
+
   _getLocalStorage() {
     const data = JSON.parse(localStorage.getItem('workouts'))
 
@@ -254,6 +255,11 @@ class App {
     this.#workouts.forEach(item => {
       this._renderWorkout(item)
     })
+  }
+
+  reset() {
+    localStorage.removeItem('workouts')
+    location.reload()
   }
  }
 
