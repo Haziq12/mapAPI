@@ -155,6 +155,9 @@ class App {
     
     // clear input fields
     this._hideForm()
+
+    // Adding all workouts to local storage 
+    this._setLocalStorage()
   }
 
   _renderWorkoutMarker(workout) {
@@ -220,12 +223,11 @@ class App {
 
   _moveToPopup(e) {
     const workoutEl = e.target.closest('.workout')
-    console.log(workoutEl)
+    
     //guard clause
     if(!workoutEl) return 
 
     const workout = this.#workouts.find(workout => workout.id === workoutEl.dataset.id)
-    console.log(workout) 
 
     this.#map.setView(workout.coordinates, this.#mapZoomLevel, {
       animate: true,
@@ -233,6 +235,10 @@ class App {
         duration: 1
       }
     })
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts))
   }
  }
 
