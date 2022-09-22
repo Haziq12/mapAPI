@@ -91,6 +91,10 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on('click', this._showForm.bind(this))
+
+    this.#workouts.forEach(item => {
+      this._renderWorkoutMarker(item)
+    })
   }
 
   _showForm(event) {
